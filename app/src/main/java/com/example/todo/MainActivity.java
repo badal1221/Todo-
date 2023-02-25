@@ -28,9 +28,8 @@ public class MainActivity extends AppCompatActivity implements DialogCloseListne
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Objects.requireNonNull(getSupportActionBar()).hide();
+        //Objects.requireNonNull(getSupportActionBar()).hide();
         db=new Mydbhandler(this);
-        db.openDatabase();
         task=findViewById(R.id.task);
         fab=findViewById(R.id.fab);
         task.setLayoutManager(new LinearLayoutManager(this));
@@ -40,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements DialogCloseListne
         i.attachToRecyclerView(task);
         arr=db.getAllTasks();
         Collections.reverse(arr);
-        adapter.setTasks(arr);
+        adapter.updateData(arr);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -53,7 +52,6 @@ public class MainActivity extends AppCompatActivity implements DialogCloseListne
     public void handleDialogClose(DialogInterface dialog) {
         arr=db.getAllTasks();
         Collections.reverse(arr);
-        adapter.setTasks(arr);
         adapter.updateData(arr);
     }
 }

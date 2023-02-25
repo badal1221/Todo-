@@ -32,7 +32,7 @@ public class Recadapter extends RecyclerView.Adapter<Recadapter.viewholder>{
     }
     @Override
     public void onBindViewHolder(@NonNull final viewholder holder, int position) {
-           db.openDatabase();
+         //  db.openDatabase();
            final Model m=arr.get(position);
            holder.task.setText(m.getTask());
            if(m.getStatus()==1)
@@ -55,9 +55,9 @@ public class Recadapter extends RecyclerView.Adapter<Recadapter.viewholder>{
     }
     @Override
     public int getItemCount() { return arr.size(); }
-    public void setTasks(List<Model> arr){
-        this.arr=arr;
-    }
+//    public void setTasks(List<Model> arr){
+//        this.arr=arr;
+//    }
     public class viewholder extends RecyclerView.ViewHolder{
         CheckBox task;
         public viewholder(@NonNull View itemView) {

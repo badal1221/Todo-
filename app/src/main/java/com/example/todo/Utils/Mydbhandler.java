@@ -18,33 +18,32 @@ public class Mydbhandler extends SQLiteOpenHelper {
     private static final String STATUS="status";
     private static final String CREATE_TODO_TABLE = "CREATE TABLE " + TODO_TABLE + "(" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + TASK + " TEXT, "
             + STATUS + " INTEGER)";
-    private SQLiteDatabase db;
     public Mydbhandler(Context context){
         super(context,NAME,null,VERSION);
     }
 
     @Override
-    public void onCreate(SQLiteDatabase sqLiteDatabase) {
+    public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_TODO_TABLE);
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldversion, int newversion) {
-         //DROP older table
+    public void onUpgrade(SQLiteDatabase db, int oldversion, int newversion) {
         db.execSQL("DROP TABLE IF EXISTS "+TODO_TABLE);
-        //Create table again
         onCreate(db);
     }
-    public void openDatabase(){
-        db=this.getWritableDatabase();
-    }
+//    public void openDatabase() {
+//        db = this.getWritableDatabase();
+//    }
     public void insertTask(Model m){
+        SQLiteDatabase db=this.getWritableDatabase();
         ContentValues cv=new ContentValues();
         cv.put(TASK,m.getTask());
         cv.put(STATUS,0);
         db.insert(TODO_TABLE,null,cv);
     }
     public List<Model> getAllTasks(){
+        SQLiteDatabase db=this.getReadableDatabase();
         List<Model> m1=new ArrayList<>();
         Cursor cur=null;
         db.beginTransaction();
@@ -69,16 +68,19 @@ public class Mydbhandler extends SQLiteOpenHelper {
         return m1;
     }
     public void updatestatus(int id,int status){
+        SQLiteDatabase db=this.getWritableDatabase();
         ContentValues cv=new ContentValues();
         cv.put(STATUS,status);
         db.update(TODO_TABLE,cv,ID+"= ?",new String[]{String.valueOf(id)});
     }
     public void updatetask(int id,String task){
+        SQLiteDatabase db=this.getWritableDatabase();
         ContentValues cv=new ContentValues();
         cv.put(TASK,task);
         db.update(TODO_TABLE,cv,ID+"= ?",new String[]{String.valueOf(id)});
     }
     public void deletetask(int id){
+        SQLiteDatabase db=this.getWritableDatabase();
         db.delete(TODO_TABLE,ID+"= ?",new String[]{String.valueOf(id)});
     }
 }
